@@ -1,0 +1,36 @@
+.Pagination {
+  display: inline-block;
+  margin: 20px 10px 0 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+  background-repeat: no-repeat;
+  background-size: 15px;
+  background-position: 50% 50%;
+}
+
+.Pagination.Pagination--prev {
+  background-image: url( './arrow-left.png' );
+}
+
+.Pagination.Pagination--next {
+  background-image: url( './arrow-right.png' );
+}
+
+@media only screen and ( min-width: 768px ) {
+  .Pagination {
+    position: absolute;
+    top: 50%;
+    transform: translateY( -50% );
+    margin: 0;
+  }
+
+  .Pagination.Pagination--prev {
+    left: 10px;
+  }
+
+  .Pagination.Pagination--next {
+    right: 10px;
+  }
+}

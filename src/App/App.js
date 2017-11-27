@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Moment from 'moment';
 import Title from '../Title/Title.js';
+import Pagination from '../Pagination/Pagination.js';
 import Day from '../Day/Day.js';
 import DateChooser from '../DateChooser/DateChooser.js';
 
@@ -134,6 +135,16 @@ class App extends Component {
                        currentYear={ this.state.currentYear }
                        setMonth={ (month) => this.setMonth(month) }
                        setYear={ (year) => this.setYear(year) } />
+          <Pagination direction="prev"
+                      currentMonth={ this.state.currentMonth }
+                      currentYear={ this.state.currentYear }
+                      setMonth={ (month) => this.setMonth(month) }
+                      setYear={ (year) => this.setYear(year) } />
+          <Pagination direction="next"
+                      currentMonth={ this.state.currentMonth }
+                      currentYear={ this.state.currentYear }
+                      setMonth={ (month) => this.setMonth(month) }
+                      setYear={ (year) => this.setYear(year) } />
         </div>
         <div className="days">
           { this.state.days }

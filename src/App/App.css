@@ -3,21 +3,14 @@
 }
 
 .App .header {
+  position: relative;
   padding: 20px 10px 20px 10px;
   background: #2d2d2d;
 }
 
 @media only screen and ( min-width: 768px ) {
   .App .header {
-    position: relative;
-    margin-bottom: 80px;
+    margin-bottom: 60px;
     padding: 22px 10px 20px 20px;
-  }
-
-  .App .header div {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%)
   }
 }
