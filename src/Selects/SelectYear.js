@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './selects.css';
+import './Selects.css';
 
 class SelectYear extends Component {
   constructor() {
@@ -15,7 +15,9 @@ class SelectYear extends Component {
     let options = [];
     for ( let i = 1900; i < 2100; i++ ) {
       options.push(
-        <option key={ i } value={ i }>{ i }</option>
+        <option key={ i } value={ i }>
+          { i }
+        </option>
       );
     }
 
@@ -28,8 +30,8 @@ class SelectYear extends Component {
 
   render() {
     return (
-      <select value={ this.props.currentYear }
-              className="date-select"
+      <select className="date-select"
+              value={ this.props.currentYear }
               onChange={ (e) => this.setYear(e) }>
         { this.state.options }
       </select>

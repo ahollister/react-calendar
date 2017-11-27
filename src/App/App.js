@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import Day from '../Day/Day.js';
-import SelectMonth from '../Selects/SelectMonth.js';
-import SelectYear from '../Selects/SelectYear.js';
 import Moment from 'moment';
+import Title from '../Title/Title.js';
+import Day from '../Day/Day.js';
+import DateChooser from '../DateChooser/DateChooser.js';
 
 class App extends Component {
   constructor() {
@@ -43,9 +43,9 @@ class App extends Component {
     });
   }
 
+  // Returns Moment() end of provided month
   getEndOfMonth( month, year ) {
-    // Get end of month provided
-    let monthMoment = Moment( month + ' ' + year, 'MMMM YYYY' )
+    let monthMoment = Moment( month + ' ' + year, 'MMMM YYYY' );
     return Moment( monthMoment.daysInMonth() + ' ' + month + ' ' + year, 'DD MMMM YYYY' );
   }
 
@@ -92,7 +92,7 @@ class App extends Component {
         // Add inactive Day component to array and pass date info as props
         days.push( <Day key={ i }
                         isActive={ false }
-                        thisDate={ parseInt(thisDate, 10) }
+                        thisDate={ parseInt( thisDate, 10 ) }
                         thisDay={ thisDay } /> );
       } else if ( i >= this.state.currentDayOffset + this.state.daysInMonth ) { // If this day is after current month
         // Calculate days from start of next month
@@ -119,6 +119,7 @@ class App extends Component {
                         thisDay={ thisDay } /> );
       }
     }
+
     // Update state
     this.setState({ days: days });
   }
@@ -127,15 +128,16 @@ class App extends Component {
     return (
       <div className="App">
         <div className="header">
-          <h1>{ this.state.currentMonth + ' - ' + this.state.currentYear }</h1>
-          <div>
-            <SelectMonth currentMonth={ this.state.currentMonth }
-                         setMonth={ (month) => this.setMonth(month) } />
-            <SelectYear currentYear={ this.state.currentYear }
-                        setYear={ (year) => this.setYear(year) } />
-          </div>
+          <Title currentMonth={ this.state.currentMonth }
+                 currentYear={ this.state.currentYear } />
+          <DateChooser currentMonth={ this.state.currentMonth }
+                       currentYear={ this.state.currentYear }
+                       setMonth={ (month) => this.setMonth(month) }
+                       setYear={ (year) => this.setYear(year) } />
         </div>
-        <div className="days">{ this.state.days }</div>
+        <div className="days">
+          { this.state.days }
+        </div>
       </div>
     );
   }

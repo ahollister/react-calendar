@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './selects.css';
+import './Selects.css';
 
 class SelectMonth extends Component {
   constructor() {
