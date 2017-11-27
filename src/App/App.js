@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import './App.css'
-import Day from './Day.js'
-import SelectMonth from './SelectMonth.js'
+import './App.css';
+import Day from '../Day/Day.js';
+import SelectMonth from '../Selects/SelectMonth.js';
 import Moment from 'moment';
 
 class App extends Component {
   constructor() {
-    super()
+    super();
 
     var currentYear = Moment().format('YYYY');
     var currentMonth = Moment().format('MMMM');
@@ -22,7 +22,7 @@ class App extends Component {
     let startOfMonth = Moment( this.state.currentMonth + ' ' + this.state.currentYear, 'MMMM YYYY' );
     this.state.startOfMonth = startOfMonth;
     // Set end of month
-    let endOfMonth = Moment( this.state.startOfMonth.daysInMonth() + ' ' + this.state.currentMonth + ' ' + this.state.currentYear, 'DD MMMM YYYY' )
+    let endOfMonth = Moment( this.state.startOfMonth.daysInMonth() + ' ' + this.state.currentMonth + ' ' + this.state.currentYear, 'DD MMMM YYYY' );
     this.state.endOfMonth = endOfMonth;
     // Set days in month
     this.state.daysInMonth = this.state.startOfMonth.daysInMonth();

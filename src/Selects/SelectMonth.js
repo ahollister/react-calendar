@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './SelectMonth.css'
+import './SelectMonth.css';
 
 class SelectMonth extends Component {
   constructor() {
-    super()
+    super();
 
     this.state = {
       options: []
@@ -12,7 +12,7 @@ class SelectMonth extends Component {
 
   componentWillMount() {
     let options = [];
-    let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     for ( let i = 0; i < months.length; i++ ) {
       options.push(
         <option key={ i } value={ months[i] }>{ months[i] }</option>
@@ -25,7 +25,7 @@ class SelectMonth extends Component {
   }
 
   chooseMonth() {
-    alert( 'chooseMonth() ... ' )
+    alert( 'chooseMonth() ... ' );
   }
 
   render() {

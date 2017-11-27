@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './Day.css'
+import './Day.css';
 
 class Day extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       classNames: 'day',
       dayContent: []
