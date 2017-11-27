@@ -92,7 +92,7 @@ class App extends Component {
           <h1>{ this.state.currentMonth + ' - ' + this.state.currentYear }</h1>
           <div>
             <SelectMonth currentMonth={ this.state.currentMonth }
-                        setMonth={ (month) => this.setMonth(month) } />
+                         setMonth={ (month) => this.setMonth(month) } />
             <SelectYear currentYear={ this.state.currentYear }
                         setYear={ (year) => this.setYear(year) } />
           </div>
