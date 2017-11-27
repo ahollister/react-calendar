@@ -1,18 +1,23 @@
-.day {
+.days {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.Day {
   text-align: left;
   padding: 10px;
   width: calc(100%/7);
   height: 100px;
   display: inline-block;
-  outline: 1px solid black;
+  outline: 1px solid #ccc;
   background: #fff;
 }
 
-.day.day--inactive {
+.Day.Day--inactive {
   vertical-align: bottom;
   background: #ddd;
 }
 
-.day .day-of-week {
+.Day .day-of-week {
   font-size: 12px;
 }

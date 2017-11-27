@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './SelectMonth.css';
+import './selects.css';
 
 class SelectMonth extends Component {
   constructor() {
@@ -24,14 +24,15 @@ class SelectMonth extends Component {
     });
   }
 
-  chooseMonth() {
-    alert( 'chooseMonth() ... ' );
+  setMonth(e) {
+    this.props.setMonth(e.target.value)
   }
 
   render() {
     return (
       <select value={ this.props.currentMonth }
-              onChange={ () => this.chooseMonth() }>
+              className="date-select"
+              onChange={ (e) => this.setMonth(e) }>
         { this.state.options }
       </select>
     );

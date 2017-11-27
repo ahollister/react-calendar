@@ -13,14 +13,14 @@ class Day extends Component {
   render() {
     if ( this.props.isActive ) {
       return (
-        <div className="day">
+        <div className="Day">
           <div className="date">{ String(this.props.thisDate) }</div>
           <div className="day-of-week">{ this.props.thisDay }</div>
         </div>
       );
     } else {
       return (
-        <div className="day day--inactive"></div>
+        <div className="Day Day--inactive"></div>
       );
     }
   }
