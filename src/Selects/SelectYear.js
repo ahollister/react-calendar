@@ -11,20 +11,19 @@ class SelectYear extends Component {
   }
 
   componentWillMount() {
+    // Create year options from 1900 to 2100
     let options = [];
-    for ( let i = 1950; i < 2100; i++ ) {
+    for ( let i = 1900; i < 2100; i++ ) {
       options.push(
         <option key={ i } value={ i }>{ i }</option>
       );
     }
 
-    this.setState({
-      options: options
-    });
+    this.setState({ options: options });
   }
 
-  setYear(e) {
-    this.props.setYear(e.target.value)
+  setYear( e ) {
+    this.props.setYear( e.target.value )
   }
 
   render() {

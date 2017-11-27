@@ -2,27 +2,20 @@ import React, { Component } from 'react';
 import './Day.css';
 
 class Day extends Component {
-  constructor() {
-    super();
-    this.state = {
-      classNames: 'day',
-      dayContent: []
-    };
-  }
-
   render() {
+    let cssClasses = '';
     if ( this.props.isActive ) {
-      return (
-        <div className="Day">
-          <div className="date">{ String(this.props.thisDate) }</div>
-          <div className="day-of-week">{ this.props.thisDay }</div>
-        </div>
-      );
+      cssClasses = 'Day';
     } else {
-      return (
-        <div className="Day Day--inactive"></div>
-      );
+      cssClasses = 'Day Day--inactive';
     }
+
+    return (
+      <div className={ cssClasses }>
+        <div className="date">{ String(this.props.thisDate) }</div>
+        <div className="day-of-week">{ this.props.thisDay }</div>
+      </div>
+    );
   }
 }
 

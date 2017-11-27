@@ -20,7 +20,7 @@ class App extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // Create UI
     this.createMonth();
   }
@@ -43,18 +43,30 @@ class App extends Component {
     });
   }
 
+  getEndOfMonth( month, year ) {
+    // Get end of month provided
+    let monthMoment = Moment( month + ' ' + year, 'MMMM YYYY' )
+    return Moment( monthMoment.daysInMonth() + ' ' + month + ' ' + year, 'DD MMMM YYYY' );
+  }
+
+  // This method creates the state for the boundaries of the current month
+  // Call this whenever the month changes to re-render based on current month and year state
   createMonth() {
-    // Set boundaries of month and render Day components
+    // Set boundaries of month and render <Day /> components
     let startOfMonth = Moment( this.state.currentMonth + ' ' + this.state.currentYear, 'MMMM YYYY' );
-    let endOfMonth = Moment( startOfMonth.daysInMonth() + ' ' + this.state.currentMonth + ' ' + this.state.currentYear, 'DD MMMM YYYY' );
-    let currentDayOffset = this.state.dayOffset[startOfMonth.format( 'dddd' )];
+    let endOfMonth = this.getEndOfMonth( this.state.currentMonth, this.state.currentYear );
     let daysInMonth = startOfMonth.daysInMonth();
+    let currentDayOffset = this.state.dayOffset[startOfMonth.format( 'dddd' )];
+    let previousMonth = Moment( this.state.currentMonth + ' ' + this.state.currentYear, 'MMMM YYYY' ).subtract( 1, 'months' );
+    let nextMonth = Moment( this.state.currentMonth + ' ' + this.state.currentYear, 'MMMM YYYY' ).add( 1, 'months' );
 
     this.setState({
       startOfMonth: startOfMonth,
       endOfMonth: endOfMonth,
       daysInMonth: daysInMonth,
-      currentDayOffset: currentDayOffset
+      currentDayOffset: currentDayOffset,
+      previousMonth: previousMonth,
+      nextMonth: nextMonth,
     }, function() {
       this.createDays();
     });
@@ -62,19 +74,45 @@ class App extends Component {
 
   createDays() {
     var days = [];
-    // Loop to create 35 days (5 rows of 7 days)
-    for ( let i = 0; i < 35; i++ ) {
-      // If this day is not within current month
-      if ( i < this.state.currentDayOffset || i >= this.state.currentDayOffset + this.state.daysInMonth ) {
-        // Add inactive Day component to array
+    // Loop to create 42 days (6 rows of 7 days)
+    let gridTotal = 42;
+    for ( let i = 0; i < gridTotal; i++ ) {
+      // If this day is before current month
+      if ( i < this.state.currentDayOffset ) {
+        // Calculate days from end of previous month
+        let daysToSubtract = this.state.currentDayOffset - i - 1;
+        let previousMonthFormatted = this.state.previousMonth.format( 'MMMM' );
+        let thisDate = this.getEndOfMonth( previousMonthFormatted, this.state.currentYear )
+                           .subtract( daysToSubtract, 'days' )
+                           .format( 'DD' );
+        let thisDay = this.getEndOfMonth( previousMonthFormatted, this.state.currentYear )
+                          .subtract( daysToSubtract, 'days' )
+                          .format( 'ddd' );
+
+        // Add inactive Day component to array and pass date info as props
         days.push( <Day key={ i }
-                        isActive={ false } /> );
-      } else {
+                        isActive={ false }
+                        thisDate={ parseInt(thisDate, 10) }
+                        thisDay={ thisDay } /> );
+      } else if ( i >= this.state.currentDayOffset + this.state.daysInMonth ) { // If this day is after current month
+        // Calculate days from start of next month
+        let daysToAdd = ( i + 1 ) - ( this.state.currentDayOffset + this.state.daysInMonth );
+        let thisDate = this.getEndOfMonth( this.state.currentMonth, this.state.currentYear )
+                           .add( daysToAdd, 'days' ).format( 'DD' );
+        let thisDay = this.getEndOfMonth( this.state.currentMonth, this.state.currentYear )
+                          .add( daysToAdd, 'days' ).format( 'ddd' );
+
+        // Add inactive Day component to array and pass date info as props
+        days.push( <Day key={ i }
+                        isActive={ false }
+                        thisDate={ thisDate }
+                        thisDay={ thisDay } /> );
+      } else { // These days fall within the current month
         // Calculate date and day of week
         let thisDate = ( i + 1 ) - this.state.currentDayOffset;
         let thisDay = Moment( thisDate + ' ' + this.state.currentMonth + ' ' + this.state.currentYear, 'DD MMMM YYYY' ).format( 'ddd' );
+
         // Add active Day component to array
-        // and pass date info as props
         days.push( <Day key={ i }
                         isActive={ true }
                         thisDate={ thisDate }

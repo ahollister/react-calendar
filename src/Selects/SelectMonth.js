@@ -11,21 +11,18 @@ class SelectMonth extends Component {
   }
 
   componentWillMount() {
+    // Create month options
     let options = [];
     let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     for ( let i = 0; i < months.length; i++ ) {
-      options.push(
-        <option key={ i } value={ months[i] }>{ months[i] }</option>
-      );
+      options.push( <option key={ i } value={ months[i] }>{ months[i] }</option> );
     }
 
-    this.setState({
-      options: options
-    });
+    this.setState({ options: options });
   }
 
-  setMonth(e) {
-    this.props.setMonth(e.target.value)
+  setMonth( e ) {
+    this.props.setMonth( e.target.value )
   }
 
   render() {
