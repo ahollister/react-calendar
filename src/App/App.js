@@ -13,7 +13,7 @@ class App extends Component {
     // Set initial state
     this.state = {
       todaysDateFormatted: Moment().format( 'DD MMMM YYYY' ),
-      dayOffset: { "Sunday": 0, "Monday": 1, "Tuesday": 2, "Wednesday": 3, "Thursday": 4, "Friday": 5, "Saturday": 6 },
+      dayOffset: { 'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6 },
     }
   }
 
