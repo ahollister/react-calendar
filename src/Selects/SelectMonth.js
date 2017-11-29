@@ -22,7 +22,7 @@ class SelectMonth extends Component {
   }
 
   setMonth( e ) {
-    this.props.setMonth( e.target.value )
+    this.props.setCurrentDate( e.target.value, 'month' );
   }
 
   render() {

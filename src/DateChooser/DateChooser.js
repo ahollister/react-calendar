@@ -4,21 +4,17 @@ import SelectMonth from '../Selects/SelectMonth.js';
 import SelectYear from '../Selects/SelectYear.js';
 
 class DateChooser extends Component {
-  setMonth( month ) {
-    this.props.setMonth( month )
-  }
-
-  setYear( year ) {
-    this.props.setYear( year )
+  setCurrentDate( date, type ) {
+    this.props.setCurrentDate( date, type )
   }
 
   render() {
     return (
       <div className="DateChooser">
         <SelectMonth currentMonth={ this.props.currentMonth }
-                     setMonth={ (month) => this.setMonth(month) } />
+                     setCurrentDate={ (date, type) => this.setCurrentDate(date, type) } />
         <SelectYear currentYear={ this.props.currentYear }
-                    setYear={ (year) => this.setYear(year) } />
+                    setCurrentDate={ (date, type) => this.setCurrentDate(date, type) } />
       </div>
     );
   }

@@ -25,11 +25,11 @@ class Pagination extends Component {
   }
 
   setMonth( month ) {
-    this.props.setMonth( month )
+    this.props.setCurrentDate( month, 'month' );
   }
 
   setYear( year ) {
-    this.props.setYear( year )
+    this.props.setCurrentDate( year, 'year' );
   }
 
   paginateMonth() {

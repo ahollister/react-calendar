@@ -25,7 +25,7 @@ class SelectYear extends Component {
   }
 
   setYear( e ) {
-    this.props.setYear( e.target.value )
+    this.props.setCurrentDate( e.target.value, 'year' )
   }
 
   render() {

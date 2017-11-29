@@ -10,45 +10,79 @@ class App extends Component {
   constructor() {
     super();
 
-    // Set default state
-    var currentYear = Moment().format('YYYY');
-    var currentMonth = Moment().format('MMMM');
+    // Set initial state
     this.state = {
-      todaysDateFormatted: Moment().format('DD MMMM YYYY'),
-      currentYear: currentYear,
-      currentMonth: currentMonth,
+      todaysDateFormatted: Moment().format( 'DD MMMM YYYY' ),
       dayOffset: { "Sunday": 0, "Monday": 1, "Tuesday": 2, "Wednesday": 3, "Thursday": 4, "Friday": 5, "Saturday": 6 },
     }
   }
 
+
   componentDidMount() {
-    // Create UI
-    this.createMonth();
+    // Create state based on URL
+    this.setStateFromUrl();
+    // Update state when user uses 'back' or 'forward' buttons
+    window.addEventListener( 'popstate', () => this.setStateFromUrl() );
   }
 
-  setMonth( month ) {
-    // Update currentMonth and callback to update UI
+
+  // Set state based on query strings in URL
+  setStateFromUrl() {
+    let currentYear = '';
+    let currentMonth = '';
+    // If there aren't any query strings
+    if ( window.location.href.indexOf( '?' ) === -1 ) {
+      currentYear = Moment().format( 'YYYY' );
+      currentMonth = Moment().format( 'MMMM' );
+    } else {
+      currentMonth = this.getQueryString( 'month' );
+      currentYear = this.getQueryString( 'year' );
+    }
+
+    // Set state and callback to update UI
     this.setState({
-      currentMonth: month
+      currentMonth: currentMonth,
+      currentYear: currentYear
     }, function() {
       this.createMonth();
     });
   }
 
-  setYear( year ) {
-    // Update currentMonth and callback to update UI
-    this.setState({
-      currentYear: year
-    }, function() {
+
+  // Get value from URL for given key
+  getQueryString( key ) {
+    var value = window.location.search.match( new RegExp( "[?&]" + key + "=([^&]*)(&?)", "i" ) );
+    return value ? value[1] : value;
+  }
+
+
+  // Set current month or year based on value of 'type'
+  setCurrentDate( date, type ) {
+    let stateToUpdate = {};
+    if ( type === 'month' ) {
+      stateToUpdate = { currentMonth: date };
+    } else if ( type === 'year' ) {
+      stateToUpdate = { currentYear: date };
+    }
+
+    // Update state and callback to update UI
+    this.setState( stateToUpdate, function() {
+      // Clear current query parameters from URL and add the updated state
+      let originalUrl = window.location.href.substring( 0, window.location.href.indexOf( '?' ) );
+      window.history.pushState( null, null, originalUrl + "?month=" + this.state.currentMonth + "&year=" + this.state.currentYear );
+
+      // Update UI
       this.createMonth();
     });
   }
 
-  // Returns Moment() end of provided month
+
+  // Returns Moment() at end of provided month
   getEndOfMonth( month, year ) {
     let monthMoment = Moment( month + ' ' + year, 'MMMM YYYY' );
     return Moment( monthMoment.daysInMonth() + ' ' + month + ' ' + year, 'DD MMMM YYYY' );
   }
+
 
   // This method creates the state for the boundaries of the current month
   // Call this whenever the month changes to re-render based on current month and year state
@@ -73,9 +107,10 @@ class App extends Component {
     });
   }
 
+
+  // Loop to create 42 <Day /> components (6 rows of 7 days)
   createDays() {
     var days = [];
-    // Loop to create 42 days (6 rows of 7 days)
     let gridTotal = 42;
     for ( let i = 0; i < gridTotal; i++ ) {
       // If this day is before current month
@@ -125,6 +160,7 @@ class App extends Component {
     this.setState({ days: days });
   }
 
+
   render() {
     return (
       <div className="App">
@@ -133,18 +169,15 @@ class App extends Component {
                  currentYear={ this.state.currentYear } />
           <DateChooser currentMonth={ this.state.currentMonth }
                        currentYear={ this.state.currentYear }
-                       setMonth={ (month) => this.setMonth(month) }
-                       setYear={ (year) => this.setYear(year) } />
+                       setCurrentDate={ (date, type) => this.setCurrentDate(date, type) } />
           <Pagination direction="prev"
                       currentMonth={ this.state.currentMonth }
                       currentYear={ this.state.currentYear }
-                      setMonth={ (month) => this.setMonth(month) }
-                      setYear={ (year) => this.setYear(year) } />
+                      setCurrentDate={ (date, type) => this.setCurrentDate(date, type) } />
           <Pagination direction="next"
                       currentMonth={ this.state.currentMonth }
                       currentYear={ this.state.currentYear }
-                      setMonth={ (month) => this.setMonth(month) }
-                      setYear={ (year) => this.setYear(year) } />
+                      setCurrentDate={ (date, type) => this.setCurrentDate(date, type) } />
         </div>
         <div className="days">
           { this.state.days }
