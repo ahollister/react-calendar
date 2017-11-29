@@ -1,5 +1,8 @@
 # React Calendar
 
+## Live version
+You can view the app running on a server here: [http://rfstaging.aaahollister.webfactional.com/calendar/](http://rfstaging.aaahollister.webfactional.com/calendar/)
+
 ## Commands
 npm start - start development server on port 3000
 
