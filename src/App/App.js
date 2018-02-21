@@ -5,6 +5,7 @@ import Title from '../Title/Title.js';
 import Pagination from '../Pagination/Pagination.js';
 import Day from '../Day/Day.js';
 import DateChooser from '../DateChooser/DateChooser.js';
+import Utils from '../utils.js';
 
 class App extends Component {
   constructor() {
@@ -12,6 +13,7 @@ class App extends Component {
 
     // Set initial state
     this.state = {
+      currentDate: Moment(),
       todaysDateFormatted: Moment().format( 'DD MMMM YYYY' ),
       dayOffset: { 'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6 },
     }
@@ -19,6 +21,26 @@ class App extends Component {
 
 
   componentDidMount() {
+    // onload
+      // IF URL has query strings
+      if (window.location.search !== '') {
+        // Set currentDate from URL
+        console.log('URL date');
+      } else {
+        console.log(':)');
+      }
+      var month = Utils.getMonth( this.state.currentDate );
+      console.log( month )
+      // In Utils
+        // Use currentDate to create a JSON object with this month and overflow days
+        // return month object
+      // In App
+        // Recieve month object
+        // In render()
+          // Loop through month obj and create Day components with day info as props
+
+
+
     // Create state based on URL
     this.setStateFromUrl();
     // Update state when user uses 'back' or 'forward' buttons
@@ -35,8 +57,8 @@ class App extends Component {
       currentYear = Moment().format( 'YYYY' );
       currentMonth = Moment().format( 'MMMM' );
     } else {
-      currentMonth = this.getQueryString( 'month' );
-      currentYear = this.getQueryString( 'year' );
+      currentMonth = Utils.getQueryString( 'month' );
+      currentYear = Utils.getQueryString( 'year' );
     }
 
     // Set state and callback to update UI
@@ -46,13 +68,6 @@ class App extends Component {
     }, function() {
       this.createMonth();
     });
-  }
-
-
-  // Get value from URL for given key
-  getQueryString( key ) {
-    var value = window.location.search.match( new RegExp( "[?&]" + key + "=([^&]*)(&?)", "i" ) );
-    return value ? value[1] : value;
   }
 
 
@@ -77,19 +92,13 @@ class App extends Component {
   }
 
 
-  // Returns Moment() at end of provided month
-  getEndOfMonth( month, year ) {
-    let monthMoment = Moment( month + ' ' + year, 'MMMM YYYY' );
-    return Moment( monthMoment.daysInMonth() + ' ' + month + ' ' + year, 'DD MMMM YYYY' );
-  }
-
 
   // This method creates the state for the boundaries of the current month
   // Call this whenever the month changes to re-render based on current month and year state
   createMonth() {
     // Set boundaries of month and render <Day /> components
     let startOfMonth = Moment( this.state.currentMonth + ' ' + this.state.currentYear, 'MMMM YYYY' );
-    let endOfMonth = this.getEndOfMonth( this.state.currentMonth, this.state.currentYear );
+    let endOfMonth = Utils.getEndOfMonth( this.state.currentMonth, this.state.currentYear );
     let daysInMonth = startOfMonth.daysInMonth();
     let currentDayOffset = this.state.dayOffset[startOfMonth.format( 'dddd' )];
     let previousMonth = Moment( this.state.currentMonth + ' ' + this.state.currentYear, 'MMMM YYYY' ).subtract( 1, 'months' );
@@ -118,10 +127,10 @@ class App extends Component {
         // Calculate days from end of previous month
         let daysToSubtract = this.state.currentDayOffset - i - 1;
         let previousMonthFormatted = this.state.previousMonth.format( 'MMMM' );
-        let thisDate = this.getEndOfMonth( previousMonthFormatted, this.state.currentYear )
+        let thisDate = Utils.getEndOfMonth( previousMonthFormatted, this.state.currentYear )
                            .subtract( daysToSubtract, 'days' )
                            .format( 'DD' );
-        let thisDay = this.getEndOfMonth( previousMonthFormatted, this.state.currentYear )
+        let thisDay = Utils.getEndOfMonth( previousMonthFormatted, this.state.currentYear )
                           .subtract( daysToSubtract, 'days' )
                           .format( 'ddd' );
 
@@ -133,9 +142,9 @@ class App extends Component {
       } else if ( i >= this.state.currentDayOffset + this.state.daysInMonth ) { // If this day is after current month
         // Calculate days from start of next month
         let daysToAdd = ( i + 1 ) - ( this.state.currentDayOffset + this.state.daysInMonth );
-        let thisDate = this.getEndOfMonth( this.state.currentMonth, this.state.currentYear )
+        let thisDate = Utils.getEndOfMonth( this.state.currentMonth, this.state.currentYear )
                            .add( daysToAdd, 'days' ).format( 'DD' );
-        let thisDay = this.getEndOfMonth( this.state.currentMonth, this.state.currentYear )
+        let thisDay = Utils.getEndOfMonth( this.state.currentMonth, this.state.currentYear )
                           .add( daysToAdd, 'days' ).format( 'ddd' );
 
         // Add inactive Day component to array and pass date info as props
