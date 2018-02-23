@@ -12,8 +12,8 @@ class Day extends Component {
 
     return (
       <div className={ cssClasses }>
-        <div className="date">{ String(this.props.thisDate) }</div>
-        <div className="day-of-week">{ this.props.thisDay }</div>
+        <div className="date">{ this.props.day.format('DD') }</div>
+        <div className="day-of-week">{ this.props.day.format('ddd') }</div>
       </div>
     );
   }

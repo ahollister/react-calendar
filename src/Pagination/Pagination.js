@@ -25,10 +25,12 @@ class Pagination extends Component {
   }
 
   setMonth( month ) {
+    console.log(month)
     this.props.setCurrentDate( month, 'month' );
   }
 
   setYear( year ) {
+    console.log(year)
     this.props.setCurrentDate( year, 'year' );
   }
 
